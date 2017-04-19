@@ -18,9 +18,9 @@ WarRoom is unaware of what each bot is capable of doing unless the bot explicitl
 
 ###_Actions JSON_
 
-* name: the name of the function
+* name: the name of the function (camelCase)
 * parameters: the parameters need to run the function
-    * name: name of parameter
+    * name: name of parameter (camelCase)
     * type: the variable type for the parameter (int, double, time, etc)
     * required: a boolean for whether a parameter is required
 ```json
@@ -43,7 +43,7 @@ WarRoom is unaware of what each bot is capable of doing unless the bot explicitl
 ```
 ###_Context JSON_
 
-* name: the name of the context variable
+* name: the name of the context variable (camelCase)
 * type: the context type for the variable (int, double, time, etc)
 * range: the range of values the context variable could be
 * value: the value of the context variable
