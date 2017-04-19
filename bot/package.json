@@ -1,5 +1,5 @@
 {
-  "name": "WarRoom_Bot_Scaffold Socket",
+  "name": "WarRoom_Bot_Scaffold",
   "version": "0.0.1",
   "description": "WarRoom Bot with socket connection",
   "dependencies": {
