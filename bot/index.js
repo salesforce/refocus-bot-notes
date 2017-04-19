@@ -5,44 +5,12 @@ var WarRoom = 'http://localhost:3000';
 var socket = io.connect('http://localhost:3000', {reconnect: true});
 
 var bot_identifier = 'WarRoom_Bot';
+var actions;
+var context;
 
-var actions =
-	{
-		[
-			{
-				name: 'Function1',
-				parameters: [
-					{
-						name: 'firstParameter',
-						type: 'Integer',
-						required: true
-					},
-					{
-						name: 'secondParameter',
-						type: 'String',
-						required: false
-					}
-				]
-			}
-		]
-	};
+socket.emit('Events', bot_identifier, WarRoom, null, bot_identifier + 'is connected', actions, context);
 
-var variables =
-	{
-		[
-			{
-				name: 'DropDown',
-				type: 'Picklist String',
-				type: ['Select1', 'Select2', 'Select3'],
-				value: 'Select1'
-			}
-		]
-	};
-
-
-socket.emit('Events', bot_identifier, WarRoom, null, bot_identifier + 'is conneted', actions, variables);
-
-socket.on('Events', function (from, to, session, message, actionsJSON, variablesJSON) {
+socket.on('Events', function (from, to, session, message, actionsJSON, contextJSON) {
 	if(to === bot_identifier){
 		if(message === 'Request new session'){
 			var room = session;
@@ -57,14 +25,14 @@ socket.on('Events', function (from, to, session, message, actionsJSON, variables
                 socket.emit('Events', bot_identifier, WarRoom, room, bot_identifier + 'performed' + action.name, null, null);
             }
         }else if(message === 'Request Variable'){
-            for(variablesJSON){
-                //get variables
-                socket.emit('Events', bot_identifier, WarRoom, room, bot_identifier + 'is conneted', actions, variables);
+            for(contextJSON){
+                //get context
+                socket.emit('Events', bot_identifier, WarRoom, room, bot_identifier + 'is connected', actions, context);
             }
         }else if(message === 'Request Variable Update'){
-            for(variablesJSON){
-                //update variables
-                socket.emit('Events', bot_identifier, WarRoom, room, bot_identifier + 'is conneted', actions, variables);
+            for(contextJSON){
+                //update context
+                socket.emit('Events', bot_identifier, WarRoom, room, bot_identifier + 'is connected', actions, context);
             }
         }
 	}

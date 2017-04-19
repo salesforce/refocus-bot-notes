@@ -1,0 +1,10 @@
+{
+  "context": [
+    {
+      "name": "DropDown",
+      "type": "Picklist String",
+      "type": ["Select1", "Select2", "Select3"],
+      "value": "Select1"
+    }
+  ]
+}
