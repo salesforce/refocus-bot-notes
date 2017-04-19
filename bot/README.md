@@ -41,18 +41,18 @@ _Actions JSON_
   ]
 }
 
-_Variables JSON_
+_Context JSON_
 
-* name: the name of the variable
-* type: the variable type for the variable (int, double, time, etc)
-* range: the range of values the variable could be
-* value: the value of the variable
+* name: the name of the context variable
+* type: the context type for the variable (int, double, time, etc)
+* range: the range of values the context variable could be
+* value: the value of the context variable
 
 {
-  Variable: [
+  Context: [
      {
-       name: <Variable Name>,
-       type: <Variable Type: picklist, int, double, string etc>
+       name: <Context variable Name>,
+       type: <Context variable Type: picklist, int, double, string etc>
        range: <Range values: each item in a pick list, 1-10000 for ints etc>
       value: <Default Value>
      },
