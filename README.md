@@ -1,7 +1,5 @@
 #WarRoom Bot Creation Guide
 
-* * *
-
 ##Overview
 
 This document will explain the structure in which a WarRoom bot is created.
