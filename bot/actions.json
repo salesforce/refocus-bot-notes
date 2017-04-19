@@ -1,3 +1,19 @@
 {
-  "actions": [ ]
+  "actions": [
+    {
+      "name": "functionOne",
+      "parameters": [
+        {
+          "name": "firstParameter",
+          "type": "Integer",
+          "required": true
+        },
+        {
+          "name": "secondParameter",
+          "type": "String",
+          "required": false
+        }
+      ]
+    }
+  ]
 }
