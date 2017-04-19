@@ -14,7 +14,6 @@ socket.on('Events', function (from, to, session, message, actionsJSON, contextJS
 	if(to === bot_identifier){
 		if(message === 'Request new session'){
 			var room = session;
-			var botSession = ; //create new session
             socket.emit('Events', bot_identifier, WarRoom, session, bot_identifier + 'performed' + action.name, null, null);
         }else if(message === 'Request Action'){
             for(var action : actionsJSON){
