@@ -1,3 +1,13 @@
+# Quick Start
+
+* install [Node.js](https://nodejs.org)
+* ```cd bot/```
+* install node packages
+``` npm install ```
+* set ```NODE_ENV``` depending on your needs (details in ```config.js```). Options: ```[ dev, staging, production ]```. Defaults to ```dev```
+* start the app
+``` npm start ```
+
 #Structure
 
 Each bot that is created should have the same structure. It doesn't matter what languages you use long as it follows this structure WarRoom should be able to handle it.
