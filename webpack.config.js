@@ -11,44 +11,44 @@ var HtmlWebpackPlugin = require('html-webpack-plugin'); //creates index.html fol
 var webpack = require('webpack');
 
 var config = {
-	entry: './web/index.js',
+  entry: './web/index.js',
 
-	output: {
-		path: path.resolve(__dirname, './web/dist'),
-		filename: 'index_bundle.js',
-		publicPath: '/'
-	},
+  output: {
+    path: path.resolve(__dirname, './web/dist'),
+	filename: 'index_bundle.js',
+	publicPath: '/',
+  },
 
-	module: {
-		rules: [
-			{test: /\.(js|jsx)$/, use: 'babel-loader'}, //code transformer (if file is .js)
-			{test: /\.css$/, use: ['style-loader', 'css-loader']},
-			{ test: /\.handlebars$/, loader: "handlebars-loader" },
-			{test: /.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/, use: "url-loader?limit=100000"}
-		]
-	},
+  module: {
+    rules: [
+	  {test: /\.(js|jsx)$/, use: 'babel-loader'}, //code transformer (if file is .js)
+	  {test: /\.css$/, use: ['style-loader', 'css-loader']},
+	  {test: /\.handlebars$/, loader: "handlebars-loader" },
+	  {test: /.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/, use: "url-loader?limit=100000"},
+	]
+  },
 
-	node: {
-		fs: 'empty'
-	},
+  node: {
+    fs: 'empty'
+  },
 
-	devServer: {
-		historyApiFallback: true
-	},
+  devServer: {
+    historyApiFallback: true,
+  },
 
-	plugins: [new HtmlWebpackPlugin({
-		template: 'web/index.html'
-	})]
+  plugins: [new HtmlWebpackPlugin({
+    template: 'web/index.html',
+  })],
 };
 
 if(process.env.NODE_ENV === 'production'){
-	config.plugins.push(
-		new webpack.DefinePlugin({ //allows us to set a property on process.env
-			'process.env': {
-				'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-			}
-		}),
-		new webpack.optimize.UglifyJsPlugin()
+  config.plugins.push(
+    new webpack.DefinePlugin({ //allows us to set a property on process.env
+	  'process.env': {
+	    'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+	  }
+	}),
+		new webpack.optimize.UglifyJsPlugin();
 	)
 }
 
