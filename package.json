@@ -3,11 +3,23 @@
   "version": "0.0.2",
   "description": "Bot scaffold for refocus bot development",
   "scripts": {
-    "start": "node index.js",
+    "build-ui": "webpack --config webpack.config.js",
+    "start-ui": "webpack-dev-server --open",
+    "start": "npm run build-ui && node bot.js",
   },
   "dependencies": {
     "express": "4.10.2",
+    "jsforce": "^1.7.1",
+    "prop-types": "^15.5.10",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "socket.io": "1.2.0",
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ]
   },
   "metadata": {
     "actions": [
