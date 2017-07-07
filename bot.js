@@ -13,8 +13,10 @@
  *
  */
 
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
+var env = process.env.NODE_ENV || 'dev';
 var config = require('./config.js')[env];
 
 app.use(express.static('web/dist'));
