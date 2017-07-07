@@ -15,12 +15,12 @@
 
 module.exports = {
   dev: {
-    refocusURL: 'http://localhost:3000'
+    refocusURL: 'http://localhost:3000',
   },
   staging: {
-    refocusURL: ''
+    refocusURL: '',
   },
   production: {
-    refocusURL: ''
+    refocusURL: '',
   }
 };
