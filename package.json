@@ -1,0 +1,33 @@
+{
+  "name": "Bot-Development-Kit",
+  "version": "0.0.2",
+  "description": "Bot scaffold for refocus bot development",
+  "scripts": {
+    "start": "node index.js",
+  },
+  "dependencies": {
+    "express": "4.10.2",
+    "socket.io": "1.2.0",
+  },
+  "metadata": {
+    "actions": [
+      "name": actionName,
+      "parameters": [
+        "name": "parameterName",
+        "type": "String",
+      ],
+    ],
+    "data": [
+      {
+        "name": dataName,
+        "type": "String",
+      }
+    ],
+    "settings": [
+      {
+        "key": dataName,
+        "helpText": "Describe the information needed in this setting",
+      }
+    ],
+  },
+}
