@@ -32,24 +32,28 @@
     "url-loader": "^0.5.9",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5"
-  }
+  },
   "metadata": {
     "actions": [
-      "name": actionName,
-      "parameters": [
-        "name": "parameterName",
-        "type": "String",
-      ],
+      {
+        "name": "actionName",
+        "parameters": [
+          {
+            "name": "parameterName",
+            "type": "String",
+          },
+        ],
+      },
     ],
     "data": [
       {
-        "name": dataName,
+        "name": "dataName",
         "type": "String",
-      }
+      },
     ],
     "settings": [
       {
-        "key": dataName,
+        "key": "dataName",
         "helpText": "Describe the information needed in this setting",
       }
     ],
