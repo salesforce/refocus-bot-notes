@@ -21,7 +21,7 @@ var config = require('./config.js')[env];
 var bdk = require('/lib/refocus-bdk.js');
 
 botServerPolling();
-window.addEventListener('refocus.room.server.update', function (uiUpdate) {
+window.addEventListener('refocus.room.server.update', function (requestedActions) {
   // add action functions here
 }, false);
 
