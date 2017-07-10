@@ -5,6 +5,12 @@
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="../lib/refocus-bdk.js"></script>
+    <script>
+      botUIPolling();
+      window.addEventListener('refocus.room.ui.update', function (uiUpdate) {
+	    // add data update functions here
+	  }, false);
+    </script>
   </head>
   <body>
     <div id="root"></div>

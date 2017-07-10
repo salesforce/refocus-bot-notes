@@ -18,6 +18,12 @@ var app = express();
 var http = require('http').Server(app);
 var env = process.env.NODE_ENV || 'dev';
 var config = require('./config.js')[env];
+var bdk = require('/lib/refocus-bdk.js');
+
+botServerPolling();
+window.addEventListener('refocus.room.server.update', function (uiUpdate) {
+  // add action functions here
+}, false);
 
 app.use(express.static('web/dist'));
 app.get('/', function(req, res){
