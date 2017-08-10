@@ -18,12 +18,20 @@ var app = express();
 var http = require('http').Server(app);
 var env = process.env.NODE_ENV || 'dev';
 var config = require('./config.js')[env];
-var bdk = require('/lib/refocus-bdk.js');
+var bdk = require('/web/dist/refocus-bdk.js');
 
-botServerPolling();
-window.addEventListener('refocus.room.server.update', function (requestedActions) {
-  // add action functions here
-}, false);
+getRefocusUpdates();
+function refocusHandler(eventType, data){
+	if(eventType == 'refocus.rooms.settings'){
+		// add functions on settings change
+	}
+	if(eventType == 'refocus.bots.data'){
+		// add functions on data change
+	}
+	if(eventType == 'refocus.bots.actions'){
+		// add functions on actions
+	}
+}
 
 app.use(express.static('web/dist'));
 app.get('/', function(req, res){

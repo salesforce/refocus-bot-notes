@@ -194,4 +194,8 @@ function botServerPolling(){
       timeout: 2000
     })
   }, 5000);
+
+function getRefocusUpdates(){
+
+}
 }

@@ -9,6 +9,7 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin'); //creates index.html folder and puts it in dist folder
 var webpack = require('webpack');
+var ZipPlugin = require('zip-webpack-plugin');
 
 var config = {
   entry: './web/index.js',
@@ -36,9 +37,16 @@ var config = {
     historyApiFallback: true,
   },
 
-  plugins: [new HtmlWebpackPlugin({
-    template: 'web/index.html',
-  })],
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'web/index.html'
+    }),
+    new ZipPlugin({
+      filename: 'bot.zip',
+      include: [/\.js$/, /\.html$/],
+      exclude: ['public']
+    })
+  ]
 };
 
 if(process.env.NODE_ENV === 'production'){
