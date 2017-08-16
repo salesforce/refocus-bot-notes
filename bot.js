@@ -18,20 +18,80 @@ var app = express();
 var http = require('http').Server(app);
 var env = process.env.NODE_ENV || 'dev';
 var config = require('./config.js')[env];
-var bdk = require('/web/dist/refocus-bdk.js');
 
-getRefocusUpdates();
-function refocusHandler(eventType, data){
-	if(eventType == 'refocus.rooms.settings'){
-		// add functions on settings change
-	}
-	if(eventType == 'refocus.bots.data'){
-		// add functions on data change
-	}
-	if(eventType == 'refocus.bots.actions'){
-		// add functions on actions
-	}
+function pollingServer(host, port, path, eventName){
+  setInterval(function () {
+    var rest_options = {
+      host: host,
+      port: port,
+      path: path,
+      method: 'GET'
+    };
+
+    var request = http.request(rest_options, function(response) {
+      var content = "";
+
+      // Handle data chunks
+      response.on('data', function(chunk) {
+        content += chunk;
+      });
+
+      // Once we're done streaming the response, parse it as json.
+      response.on('end', function() {
+        var data = JSON.parse(content);
+        app.emit('refocus.' + eventName, data);
+      });
+    });
+
+    // Report errors
+    request.on('error', function(error) {
+      console.log("Error while calling endpoint.", error);
+    });
+
+    request.end();
+  }, 5000);
 }
+
+function handleEvents(data){
+  if(data.length > 0){
+    var duration = moment.duration(moment().diff(moment(data[data.length - 1].updatedAt))).asSeconds();
+    if(data.length > 0){
+      if(duration < 8){
+        console.log('Event Found', data[data.length - 1]);
+      }
+    }
+  }
+}
+
+function handleActions(data){
+  if(data.length > 0){
+    var duration = moment.duration(moment().diff(moment(data[data.length - 1].updatedAt))).asSeconds();
+    if(data.length > 0){
+      if(duration < 8){
+        console.log('Actions Found', data[data.length - 1]);
+      }
+    }
+  }
+}
+
+function handleData(data){
+  if(data.length > 0){
+    var duration = moment.duration(moment().diff(moment(data[data.length - 1].updatedAt))).asSeconds();
+    if(data.length > 0){
+      if(duration < 8){
+        console.log('Data Found', data[data.length - 1]);
+      }
+    }
+  }
+}
+
+pollingServer('localhost', '3000', '/v1/events', 'events');
+pollingServer('localhost', '3000', '/v1/botActions', 'actions');
+pollingServer('localhost', '3000', '/v1/botData', 'data');
+
+app.on('refocus.events', handleEvents);
+app.on('refocus.actions', handleActions);
+app.on('refocus.data', handleData);
 
 app.use(express.static('web/dist'));
 app.get('/', function(req, res){
