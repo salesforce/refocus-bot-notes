@@ -15,9 +15,11 @@
 
 var express = require('express');
 var app = express();
-var http = require('http').Server(app);
+var http = require('http');
 var env = process.env.NODE_ENV || 'dev';
 var config = require('./config.js')[env];
+var moment = require('moment');
+var sa = require('superagent');
 
 function pollingServer(host, port, path, eventName){
   setInterval(function () {
@@ -64,11 +66,38 @@ function handleEvents(data){
 }
 
 function handleActions(data){
+
   if(data.length > 0){
-    var duration = moment.duration(moment().diff(moment(data[data.length - 1].updatedAt))).asSeconds();
-    if(data.length > 0){
-      if(duration < 8){
-        console.log('Actions Found', data[data.length - 1]);
+    const recentAction = data[data.length - 1];
+    var duration = moment.duration(moment().diff(moment(recentAction.createdAt))).asSeconds();
+    if(duration <= 5){
+
+      /**
+       *  Do a check here to see which action is the most so that it
+       *  will be carried out and the botAction will be patched.
+       */
+
+      if(recentAction.name === 'buttonPressed'){
+        // Check if most recent action has been completed yet
+        if(!recentAction.response && recentAction.isPending){
+
+          /** 
+           *  This is where Action will be carried out (eg send email)
+           *  and the correct response is generated based on this.
+           */
+
+          const res = {
+            response: {statusText:'Action Completed Successfully!!!'},
+            isPending: false
+          };
+
+          // PATCH botAction with response and isPending
+          sa.patch('http://localhost:3000/v1/botActions/' + recentAction.id)
+          .send(res)
+          .end(function(err, res) {
+            //TODO
+          });
+        }
       }
     }
   }
@@ -98,6 +127,6 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/web/dist/index.html');
 });
 
-http.listen(5000, function(){
+http.Server(app).listen(5000, function(){
   console.log('listening on *:5000');
 });
