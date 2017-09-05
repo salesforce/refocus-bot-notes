@@ -123,17 +123,20 @@ function createEvents(data, endPoint) {
             }
         }
     }
+
     if(endPoint === 'botActions'){
         if (data.length > 0) {
-            var duration = moment.duration(moment().diff(moment(data[data.length - 1].updatedAt))).asSeconds();
-            if (duration < 8) {
-                document.body.dispatchEvent(new CustomEvent('refocus.actions', {
-                    detail: data,
-                }));
+            const recentAction = data[data.length - 1];
+            var duration = moment.duration(moment().diff(moment(recentAction.updatedAt))).asSeconds();
+            if (duration <= 5) {
+                if(recentAction.response){
+                    document.body.dispatchEvent(new CustomEvent('refocus.room.actions', {
+                        detail: recentAction,
+                    }));
+                }
             }
         }
     }
-
 }
 
 function createURL(api, endPoint, options){
@@ -145,3 +148,7 @@ function createURL(api, endPoint, options){
     }
     return url;
 }
+
+module.exports = {
+  genericPost: genericPost
+};

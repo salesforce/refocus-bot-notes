@@ -10,10 +10,12 @@
   "dependencies": {
     "express": "4.10.2",
     "jsforce": "^1.7.1",
+    "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "socket.io": "1.2.0"
+    "socket.io": "1.2.0",
+    "superagent": "^3.6.0"
   },
   "babel": {
     "presets": [

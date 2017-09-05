@@ -15,16 +15,21 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var App = require('./components/App.jsx');
 
-window.addEventListener('refocus.rooms.settings', function (uiUpdate) {
+document.body.addEventListener('refocus.rooms.settings', function (uiUpdate) {
 	// add functions on settings change
 }, false);
 
-window.addEventListener('refocus.bots.data', function (uiUpdate) {
+document.body.addEventListener('refocus.room.actions', function (uiUpdate) {
+  alert(uiUpdate.detail.response.statusText);
+}, false);
+
+document.body.addEventListener('refocus.bots.data', function (uiUpdate) {
 	// add functions on botData change
 }, false);
 
-window.addEventListener('refocus.bots.actions', function (uiUpdate) {
+document.body.addEventListener('refocus.bots.actions', function (uiUpdate) {
 	// add functions on bot actions
 }, false);
 
