@@ -5,7 +5,7 @@
   "scripts": {
     "build-ui": "webpack --config webpack.config.js",
     "start-ui": "webpack-dev-server --open",
-    "start": "npm run build-ui && node bot.js && node /lib/botCompiler"
+    "start": "npm run build-ui && node index.js && node /lib/botCompiler"
   },
   "dependencies": {
     "express": "4.10.2",
