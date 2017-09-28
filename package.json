@@ -1,6 +1,6 @@
 {
   "name": "Bot-Development-Kit",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Bot scaffold for refocus bot development",
   "url": "https://git.soma.salesforce.com/tausif-muzaffar/refocus-bdk",
   "scripts": {

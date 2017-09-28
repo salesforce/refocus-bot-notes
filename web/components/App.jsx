@@ -1,31 +1,25 @@
+/**
+ * Copyright (c) 2017, salesforce.com, inc.
+ * All rights reserved.
+ * Licensed under the BSD 3-Clause license.
+ * For full license text, see LICENSE.txt file in the repo root or
+ * https://opensource.org/licenses/BSD-3-Clause
+ */
+
+/**
+ * /web/components/App.js
+ *
+ * Main component for UI build
+ *
+ */
+
 const React=require('react');
-const bdk = require('../dist/public/refocus-bdk');
+const bdk = require('../../lib/refocus-bdk.js');
 
 class App extends React.Component{
 
-  sendAction(){
-    const actionObject = {
-      "name": "buttonPressed", 
-      "botId": "", //Bot ID must go here with correct actions.param etc 
-      "roomId": 1,
-      "isPending": true,
-      "parameters": [
-        {
-          "name": "message",
-          "value": "Hey, Action was Posted"
-        }
-       ]
-    }
-
-    bdk.genericPost('http:/' + '/localhost:3000/v1/', 'botActions', null, actionObject);
-  }
-  
   render(){
-    return(
-      <div style = {{width: '30%', margin: 'auto', paddingTop: '20px', textAlign: 'center'}}>
-        <button type="button" onClick={this.sendAction}>POST to Bot Actions!!!</button>
-      </div>
-    )
+    return()
   }
 }
 
