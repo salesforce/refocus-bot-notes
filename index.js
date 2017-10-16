@@ -7,126 +7,79 @@
  */
 
 /**
- * bot.js
+ * ./index.js
  *
- * This is the bot webapp that interacts with the different APIs.
- *
+ * This code handles will listen to refocus and handle any activity
+ * that requires the bot server attention.
  */
+'use strict';
 
-var express = require('express');
-var app = express();
-var http = require('http');
-var env = process.env.NODE_ENV || 'dev';
-var config = require('./config.js')[env];
-var moment = require('moment');
-var sa = require('superagent');
+const express = require('express');
+const app = express();
+const http = require('http');
+const env = process.env.NODE_ENV || 'dev';
+const PORT = process.env.PORT || 5000;
+const config = require('./config.js')[env];
 
-function pollingServer(host, port, path, eventName){
-  setInterval(function () {
-    var rest_options = {
-      host: host,
-      port: port,
-      path: path,
-      method: 'GET'
-    };
+const install = require('./lib/install.js');
+const io = require('socket.io-client');
 
-    var request = http.request(rest_options, function(response) {
-      var content = "";
+const chatter = require('./lib/chatter.js');
+const email = require('./lib/email.js');
+const bdk = require('./lib/refocus-bdk.js');
 
-      // Handle data chunks
-      response.on('data', function(chunk) {
-        content += chunk;
-      });
-
-      // Once we're done streaming the response, parse it as json.
-      response.on('end', function() {
-        var data = JSON.parse(content);
-        app.emit('refocus.' + eventName, data);
-      });
-    });
-
-    // Report errors
-    request.on('error', function(error) {
-      console.log("Error while calling endpoint.", error);
-    });
-
-    request.end();
-  }, 5000);
-}
-
-function handleEvents(data){
-  if(data.length > 0){
-    var duration = moment.duration(moment().diff(moment(data[data.length - 1].updatedAt))).asSeconds();
-    if(data.length > 0){
-      if(duration < 8){
-        console.log('Event Found', data[data.length - 1]);
-      }
-    }
-  }
-}
-
-function handleActions(data){
-
-  if(data.length > 0){
-    const recentAction = data[data.length - 1];
-    var duration = moment.duration(moment().diff(moment(recentAction.createdAt))).asSeconds();
-    if(duration <= 5){
-
-      /**
-       *  Do a check here to see which action is the most so that it
-       *  will be carried out and the botAction will be patched.
-       */
-
-      if(recentAction.name === 'buttonPressed'){
-        // Check if most recent action has been completed yet
-        if(!recentAction.response && recentAction.isPending){
-
-          /** 
-           *  This is where Action will be carried out (eg send email)
-           *  and the correct response is generated based on this.
-           */
-
-          const res = {
-            response: {statusText:'Action Completed Successfully!!!'},
-            isPending: false
-          };
-
-          // PATCH botAction with response and isPending
-          sa.patch('http://localhost:3000/v1/botActions/' + recentAction.id)
-          .send(res)
-          .end(function(err, res) {
-            //TODO
-          });
-        }
-      }
-    }
-  }
-}
-
-function handleData(data){
-  if(data.length > 0){
-    var duration = moment.duration(moment().diff(moment(data[data.length - 1].updatedAt))).asSeconds();
-    if(data.length > 0){
-      if(duration < 8){
-        console.log('Data Found', data[data.length - 1]);
-      }
-    }
-  }
-}
-
-pollingServer('localhost', '3000', '/v1/events', 'events');
-pollingServer('localhost', '3000', '/v1/botActions', 'actions');
-pollingServer('localhost', '3000', '/v1/botData', 'data');
+bdk.refocusConnect(app);
 
 app.on('refocus.events', handleEvents);
-app.on('refocus.actions', handleActions);
-app.on('refocus.data', handleData);
+app.on('refocus.bot.actions', handleActions);
+app.on('refocus.bot.data', handleData);
+app.on('refocus.room.settings', handleSettings);
+
+/**
+ * When a refocus.events is dispatch it is handled here.
+ *
+ * @param {Event} event - The most recent event object
+ * @return null
+ */
+function handleEvents(event){
+  console.log('Event Activity', event);
+}
+
+/**
+ * When a refocus.room.settings is dispatch it is handled here.
+ *
+ * @param {Room} room - Room object that was dispatched
+ * @return null
+ */
+function handleSettings(room){
+  console.log('Room Settings Activity', room);
+}
+
+/**
+ * When a refocus.bot.data is dispatch it is handled here.
+ *
+ * @param {BotData} data - Bot Data object that was dispatched
+ * @return null
+ */
+function handleData(data){
+  console.log('Bot Data Activity', data);
+}
+
+/**
+ * When a refocus.bot.actions is dispatch it is handled here.
+ *
+ * @param {BotAction} action - Bot Action object that was dispatched
+ * @return null
+ */
+function handleActions(action){
+  console.log('Bot action Activity', action);
+}
 
 app.use(express.static('web/dist'));
-app.get('/', function(req, res){
+app.get('/*', function(req, res){
   res.sendFile(__dirname + '/web/dist/index.html');
 });
 
-http.Server(app).listen(5000, function(){
-  console.log('listening on *:5000');
+http.Server(app).listen(PORT, function(){
+  console.log('listening on: ', PORT);
 });

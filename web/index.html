@@ -1,15 +1,21 @@
 <!doctype html>
 <html>
   <head>
-    <title>Bot-Development-Kit</title>
+    <title><%= htmlWebpackPlugin.options.name %></title>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="refocus-bdk.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
+    <script src="../public/refocusConnect.js"></script>
     <script>
-      getRefocusUpdates();
+      var ROOMID = window.location.pathname.split('rooms/').length > 1 ? parseInt(window.location.pathname.split('rooms/')[1]) : 1;
+      const url = '<%= htmlWebpackPlugin.options.url %>';
+      pollingUI(url, 'events', null);
+      pollingUI(url, 'rooms/'+ROOMID+'/bots/<%= htmlWebpackPlugin.options.name %>/action', { 'isPending' : 'false' });
+      pollingUI(url, 'rooms/'+ROOMID+'/bots/<%= htmlWebpackPlugin.options.name %>/data', null);
+      pollingUI(url, 'rooms/'+ROOMID, null);
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="<%= htmlWebpackPlugin.options.name %>"></div>
   </body>
 </html>
