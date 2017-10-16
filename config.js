@@ -19,8 +19,10 @@ module.exports = {
   },
   staging: {
     refocusUrl: '',
+    token: '',
   },
   production: {
     refocusUrl: '',
+    token: '',
   }
 };
