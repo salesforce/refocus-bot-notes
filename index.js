@@ -18,6 +18,7 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const env = process.env.NODE_ENV || 'dev';
+const token = process.env.AUTH_TOKEN;
 const PORT = process.env.PORT || 5000;
 const config = require('./config.js')[env];
 
@@ -28,7 +29,7 @@ const chatter = require('./lib/chatter.js');
 const email = require('./lib/email.js');
 const bdk = require('./lib/refocus-bdk.js');
 
-bdk.refocusConnect(app);
+bdk.refocusConnect(app, token);
 
 app.on('refocus.events', handleEvents);
 app.on('refocus.bot.actions', handleActions);
