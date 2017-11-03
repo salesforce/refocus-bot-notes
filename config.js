@@ -8,7 +8,9 @@
 
 /**
  * config.js
+ *
  * Config file for different deployments - dev, staging, production
+ *
  */
 
 module.exports = {
