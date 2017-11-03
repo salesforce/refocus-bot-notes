@@ -20,7 +20,9 @@ var App = require('./components/App.jsx');
 
 const bdk = require('../lib/refocus-bdk.js');
 const botName = require('../package.json').name;
-const roomId = parseInt(ROOMID); //ROOMID will be provided from the page DOM
+
+//ROOMID will be provided from the page DOM
+const roomId = (!typeof ROOMID === 'undefined') ? parseInt(ROOMID) : 1;
 
 document.body.addEventListener('refocus.events', handleEvents, false);
 document.body.addEventListener('refocus.room.settings', handleSettings, false);
@@ -44,7 +46,7 @@ function handleEvents(event) {
  * @return null
  */
 function handleSettings(room) {
-  console.log('Room Activity', bd);
+  console.log('Room Activity', room);
 }
 
 /**
@@ -68,10 +70,11 @@ function handleActions(action) {
 }
 
 /*
- * The actions to take before load.
+ * The actions to take place before load.
  */
-window.onload = () => {
-};
+function init() {
+  renderUI();
+}
 
 /**
  * Render the react components with the data and templates needed
@@ -82,3 +85,5 @@ function renderUI(){
     document.getElementById(botName)
   );
 }
+
+init();

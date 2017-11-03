@@ -19,7 +19,7 @@ const bdk = require('../../lib/refocus-bdk.js');
 class App extends React.Component{
 
   render(){
-    return()
+    return(<div><center>Welcome to the refocus-bot-scaffold!</center></div>)
   }
 }
 
