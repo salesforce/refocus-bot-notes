@@ -20,7 +20,7 @@ module.exports = {
     sfdcPassword: process.env.SFDC_PASSWORD,
     loginUrl: 'https://login.salesforce.com',
     host: 'localhost',
-    port: '3000',
+    port: process.env.PORT,
     token: '',
   },
   staging: {
@@ -29,7 +29,7 @@ module.exports = {
     sfdcPassword: process.env.SFDC_PASSWORD,
     loginUrl: 'https://login.salesforce.com',
     host: 'refocus-staging.herokuapp.com',
-    port: '',
+    port: process.env.PORT,
     token: process.env.TOKEN,
   },
   sandbox: {
@@ -38,7 +38,7 @@ module.exports = {
     sfdcPassword: process.env.SFDC_PASSWORD,
     loginUrl: 'https://test.salesforce.com',
     host: 'refocus-sandbox.hk.salesforce.com',
-    port: '',
+    port: process.env.PORT,
     token: process.env.TOKEN,
   },
   production: {
@@ -47,7 +47,7 @@ module.exports = {
     sfdcPassword: process.env.SFDC_PASSWORD,
     loginUrl: 'https://login.salesforce.com',
     host: 'refocus.hk.salesforce.com',
-    port: '',
+    port: process.env.PORT,
     token: process.env.TOKEN,
   },
 };

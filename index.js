@@ -18,9 +18,9 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const env = process.env.NODE_ENV || 'dev';
-const PORT = process.env.PORT || 5000;
-const token = process.env.AUTH_TOKEN;
 const config = require('./config.js')[env];
+const PORT = config.port || 5000;
+const token = process.env.AUTH_TOKEN;
 
 const install = require('./lib/install.js');
 const io = require('socket.io-client');
