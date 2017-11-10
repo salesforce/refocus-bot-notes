@@ -20,6 +20,8 @@ var App = require('./components/App.jsx');
 
 const bdk = require('../lib/refocus-bdk.js');
 const botName = require('../package.json').name;
+var ROOMID = window.location.pathname.split('rooms/').length > 1 ? parseInt(window.location.pathname.split(
+  'rooms/')[1]) : 1; //This is a temperary fix
 const roomId = parseInt(ROOMID); //ROOMID will be provided from the page DOM
 
 document.body.addEventListener('refocus.events', handleEvents, false);
