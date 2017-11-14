@@ -2,7 +2,7 @@
   "name": "Bot-Development-Kit",
   "version": "0.0.4",
   "description": "Bot scaffold for refocus bot development",
-  "url": "https://git.soma.salesforce.com/tausif-muzaffar/refocus-bdk",
+  "url": "https://git.soma.salesforce.com/Refocus-Bots/refocus-bot-scaffold",
   "scripts": {
     "start": "npm run build-ui && npm run install-bot && node index.js",
     "build-ui": "webpack --config webpack.config.js",
@@ -15,6 +15,7 @@
   "dependencies": {
     "express": "4.10.2",
     "jsforce": "^1.7.1",
+    "mocha": "^3.5.3",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",

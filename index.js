@@ -18,15 +18,13 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const env = process.env.NODE_ENV || 'dev';
-const token = process.env.AUTH_TOKEN;
-const PORT = process.env.PORT || 5000;
 const config = require('./config.js')[env];
+const PORT = config.port || 5000;
+const token = process.env.AUTH_TOKEN;
 
 const install = require('./lib/install.js');
 const io = require('socket.io-client');
 
-const chatter = require('./lib/chatter.js');
-const email = require('./lib/email.js');
 const bdk = require('./lib/refocus-bdk.js');
 
 bdk.refocusConnect(app, token);
