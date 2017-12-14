@@ -18,16 +18,21 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var App = require('./components/App.jsx');
 
-const bdk = require('../lib/refocus-bdk.js');
+const env = process.env.NODE_ENV || 'dev';
+const config = require('../config.js')[env];
+const bdk = require('@salesforce/refocus-bdk')(config);
 const botName = require('../package.json').name;
+
+//Room Details
 var ROOMID = window.location.pathname.split('rooms/').length > 1 ? parseInt(window.location.pathname.split(
-  'rooms/')[1]) : 1; //This is a temperary fix
+  'rooms/')[1]) : 2;
 const roomId = parseInt(ROOMID); //ROOMID will be provided from the page DOM
 
-document.body.addEventListener('refocus.events', handleEvents, false);
+//Event Handling
 document.body.addEventListener('refocus.room.settings', handleSettings, false);
-document.body.addEventListener('refocus.bot.data', handleData, false);
-document.body.addEventListener('refocus.bot.actions', handleActions, false);
+document.getElementById(botName).addEventListener('refocus.bot.data', handleData, false);
+document.getElementById(botName).addEventListener('refocus.bot.actions', handleActions, false);
+document.getElementById(botName).addEventListener('refocus.events', handleEvents, false);
 
 /**
  * When a refocus.events is dispatch it is handled here.
