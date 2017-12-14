@@ -31,20 +31,19 @@ This repo is a scaffold project to help develop bots for refocus rooms using the
 
 ### Repo Structure
 _**/**_
-
 --> _.gitignore_: Files to ignore on git commits
-  --> _config.js_: Some basic configurations
-  --> _index.js_: Bot server listeners and logic are identified here
-  --> _package.json_: Bot static information
-  --> _README.md_: Project explainations
-  --> _webpack.config.js_: Webpack configurations
-  --> _**/lib**_: This is where helper files should go
-  --> _**/web**_: Bot UI development done here
-  -----> _**/components**_: React UI elements stored here
-  --------> _App.jsx_: Entry point for Bot UI
-  -----> _**/dist**_: Generated bundle that will be uploaded to Refocus
-  -----> _index.html_: Basic web structure for Bot UI
-  -----> _index.js_: Bot UI dynamic logic
+--> _config.js_: Some basic configurations
+--> _index.js_: Bot server listeners and logic are identified here
+--> _package.json_: Bot static information
+--> _README.md_: Project explainations
+--> _webpack.config.js_: Webpack configurations
+--> _**/lib**_: This is where helper files should go
+--> _**/web**_: Bot UI development done here
+-----> _**/components**_: React UI elements stored here
+--------> _App.jsx_: Entry point for Bot UI
+-----> _**/dist**_: Generated bundle that will be uploaded to Refocus
+-----> _index.html_: Basic web structure for Bot UI
+-----> _index.js_: Bot UI dynamic logic
 
 ## Getting Started
 ### Test Bot Locally without Refocus
