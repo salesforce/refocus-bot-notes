@@ -37,8 +37,8 @@ _**/**_
 --> _package.json_: Bot static information  
 --> _README.md_: Project explainations  
 --> _webpack.config.js_: Webpack configurations 
---> _**/lib**_: This is where helper files should go  
---> _**/web**_: Bot UI development done here 
+--> _**/lib**_: This is where helper files should go    
+--> _**/web**_: Bot UI development done here  
 -----> _**/components**_: React UI elements stored here 
 --------> _App.jsx_: Entry point for Bot UI 
 -----> _**/dist**_: Generated bundle that will be uploaded to Refocus 
