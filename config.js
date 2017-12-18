@@ -21,7 +21,7 @@ module.exports = {
     loginUrl: process.env.SFDC_URL,
     host: 'localhost',
     port: '5000',
-    token: process.env.TOKEN,
+    token: process.env.API_TOKEN,
   },
   staging: {
     refocusUrl: 'http://refocus-staging.herokuapp.com',
@@ -30,7 +30,7 @@ module.exports = {
     loginUrl: process.env.SFDC_URL,
     host: 'refocus-staging.herokuapp.com',
     port: '',
-    token: process.env.TOKEN,
+    token: process.env.API_TOKEN,
   },
   sandbox: {
     refocusUrl: 'https://refocus-sandbox.hk.salesforce.com',
@@ -39,7 +39,7 @@ module.exports = {
     loginUrl: process.env.SFDC_URL,
     host: 'refocus-sandbox.hk.salesforce.com',
     port: '',
-    token: process.env.TOKEN,
+    token: process.env.API_TOKEN,
   },
   production: {
     refocusUrl: 'https://refocus.hk.salesforce.com',
@@ -48,6 +48,6 @@ module.exports = {
     loginUrl: process.env.SFDC_URL,
     host: 'refocus.hk.salesforce.com',
     port: '',
-    token: process.env.TOKEN,
+    token: process.env.API_TOKEN,
   },
 };

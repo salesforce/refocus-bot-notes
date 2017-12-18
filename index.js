@@ -20,7 +20,7 @@ const http = require('http');
 const io = require('socket.io-client');
 const env = process.env.NODE_ENV || 'dev';
 const PORT = process.env.PORT || 5000;
-const token = process.env.AUTH_TOKEN;
+const socketToken = process.env.SOCKET_TOKEN;
 const config = require('./config.js')[env];
 const packageJSON = require('./package.json');
 const bdk = require('@salesforce/refocus-bdk')(config);
@@ -29,7 +29,7 @@ const bdk = require('@salesforce/refocus-bdk')(config);
 bdk.installOrUpdateBot(packageJSON);
 
 //Event Handling
-bdk.refocusConnect(app, token);
+bdk.refocusConnect(app, socketToken);
 app.on('refocus.events', handleEvents);
 app.on('refocus.bot.actions', handleActions);
 app.on('refocus.bot.data', handleData);
