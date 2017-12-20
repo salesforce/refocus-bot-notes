@@ -1,19 +1,21 @@
 {
   "name": "Bot-Development-Kit",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Bot scaffold for refocus bot development",
   "url": "https://git.soma.salesforce.com/Refocus-Bots/refocus-bot-scaffold",
   "scripts": {
-    "start": "npm run build-ui && npm run install-bot && node index.js",
-    "build-ui": "webpack --config webpack.config.js",
     "start-ui": "webpack-dev-server --open",
-    "install-bot": "node lib/install.js",
+    "start": "npm run build-ui && node index.js",
+    "build-ui": "webpack --config webpack.config.js",
     "postinstall": "npm run build-ui",
     "test": "./node_modules/.bin/mocha --reporter spec",
-    "test-dev": "nodemon --ext js --watch ./ --exec 'mocha ./tests'"
+    "test-dev": "nodemon --ext js --watch ./ --exec 'mocha ./test'"
   },
   "dependencies": {
+    "@salesforce/refocus-bdk": "^1.0.1",
     "express": "4.10.2",
+    "jsforce": "^1.7.1",
+    "lodash": "^4.17.4",
     "jsforce": "^1.7.1",
     "mocha": "^3.5.3",
     "moment": "^2.18.1",
