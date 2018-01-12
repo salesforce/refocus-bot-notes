@@ -14,79 +14,63 @@
  * from javascript events.
  */
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-var App = require('./components/App.jsx');
-
+const React = require('react');
+const ReactDOM = require('react-dom');
+const App = require('./components/App.jsx');
 const env = process.env.NODE_ENV || 'dev';
 const config = require('../config.js')[env];
 const bdk = require('@salesforce/refocus-bdk')(config);
 const botName = require('../package.json').name;
-
-//Room Details
-var ROOMID = window.location.pathname.split('rooms/').length > 1 ? parseInt(window.location.pathname.split(
-  'rooms/')[1]) : 2;
-const roomId = parseInt(ROOMID); //ROOMID will be provided from the page DOM
-
-//Event Handling
-document.body.addEventListener('refocus.room.settings', handleSettings, false);
-document.getElementById(botName).addEventListener('refocus.bot.data', handleData, false);
-document.getElementById(botName).addEventListener('refocus.bot.actions', handleActions, false);
-document.getElementById(botName).addEventListener('refocus.events', handleEvents, false);
-
-/**
- * When a refocus.events is dispatch it is handled here.
- *
- * @param {Event} event - The most recent event object
- * @return null
- */
-function handleEvents(event) {
-  console.log('Event Activity', event);
-}
-
-/**
- * When a refocus.room.settings is dispatch it is handled here.
- *
- * @param {Room} room - Room object that was dispatched
- * @return null
- */
-function handleSettings(room) {
-  console.log('Room Activity', room);
-}
+let currentNotes = {};
+const userName = bdk.getUserName();
+const roomId = bdk.getRoomId();
+const ZERO = 0;
 
 /**
  * When a refocus.bot.data is dispatch it is handled here.
  *
  * @param {BotData} data - Bot Data object that was dispatched
- * @return null
  */
 function handleData(data) {
-  console.log('Bot Data Activity', data);
+  const newNotes = JSON.parse(data.detail.value)[userName];
+  renderUI(newNotes);
 }
 
-/**
- * When a refocus.bot.actions is dispatch it is handled here.
- *
- * @param {BotAction} action - Bot Action object that was dispatched
- * @return null
- */
-function handleActions(action) {
-  console.log('Bot Action Activity', action);
-}
-
-/*
- * The actions to take place before load.
- */
+// The actions to take place before load.
 function init() {
-  renderUI();
+  bdk.getBotData(roomId)
+    .then((data) => {
+      const _notes =
+        data.body.filter((bd) => bd.name === 'notesBotNotes')[ZERO];
+
+      if (_notes) {
+        currentNotes = JSON.parse(_notes.value);
+        if (!currentNotes[userName]) {
+          currentNotes[userName] = '';
+          bdk.changeBotData(_notes.id, JSON.stringify(currentNotes));
+        }
+      } else {
+        currentNotes = _notes ? JSON.parse(_notes.value) : {};
+        currentNotes[userName] = '';
+        bdk.createBotData(roomId, botName, 'notesBotNotes',
+          JSON.stringify(currentNotes));
+      }
+
+      renderUI(currentNotes[userName]);
+    });
 }
 
-/**
- * Render the react components with the data and templates needed
- */
-function renderUI(){
+document.getElementById(botName).addEventListener('refocus.bot.data',
+  handleData, false);
+
+// Render the react components with the data and templates needed.
+function renderUI(notes){
   ReactDOM.render(
-    <App />,
+    <App
+      notes={ notes }
+      userName={ userName }
+      roomId={ roomId }
+    />,
     document.getElementById(botName)
   );
 }

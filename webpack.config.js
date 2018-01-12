@@ -1,12 +1,12 @@
-var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin'); //creates index.html folder and puts it in dist folder
-var webpack = require('webpack');
-var ZipPlugin = require('zip-webpack-plugin');
-var env = process.env.NODE_ENV || 'dev';
-var url = require('./config.js')[env].refocusUrl;
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const ZipPlugin = require('zip-webpack-plugin');
+const env = process.env.NODE_ENV || 'dev';
+const url = require('./config.js')[env].refocusUrl;
 const botName = require('./package.json').name;
 
-var config = {
+const config = {
 
   entry: './web/index.js',
 
@@ -18,10 +18,21 @@ var config = {
 
   module: {
     rules: [
-      {test: /\.(js|jsx)$/, use: 'babel-loader?compact=true'}, //code transformer (if file is .js)
-      {test: /\.css$/, use: ['style-loader', 'css-loader']},
-      {test: /\.handlebars$/, loader: "handlebars-loader"},
-      {test: /.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/, use: "url-loader?limit=100000"},
+      {
+        test: /\.(js|jsx)$/,
+        include: [path.resolve(__dirname, 'web')],
+        use: 'babel-loader?compact=true',
+      },
+      {
+        test: /\.css$/,
+        include: [path.resolve(__dirname, 'web')],
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+        use: 'url-loader?limit=100000',
+        include: path.resolve(__dirname, 'web'),
+      },
     ]
   },
 
@@ -40,22 +51,17 @@ var config = {
       name: botName,
     }),
     new ZipPlugin({
-          filename: 'bot.zip',
-          include: [/\.js$/, /\.html$/],
-          exclude: ['public']
+      filename: 'bot.zip',
+      include: [/\.js$/, /\.html$/],
+      exclude: ['public']
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'API_TOKEN': JSON.stringify(process.env.API_TOKEN)
+      }
     })
   ]
 };
-
-if(process.env.NODE_ENV === 'production'){
-  config.plugins.push(
-    new webpack.DefinePlugin({ //allows us to set a property on process.env
-      'process.env': {
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin()
-  );
-}
 
 module.exports = config;

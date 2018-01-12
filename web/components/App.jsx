@@ -13,14 +13,113 @@
  *
  */
 
+import PropTypes from 'prop-types';
 const React=require('react');
-const bdk = require('../../lib/refocus-bdk.js');
+const env = process.env.NODE_ENV || 'dev';
+const config = require('../../config.js')[env];
+const bdk = require('@salesforce/refocus-bdk')(config);
+const ZERO = 0;
 
-class App extends React.Component{
+class App extends React.Component {
+  constructor(props){
+    super(props);
 
-  render(){
-    return(<div><center>Welcome to the refocus-bot-scaffold!</center></div>)
+    this.state = {
+      userName: props.userName,
+      notes: props.notes,
+      roomId: props.roomId,
+    };
+
+    this.updateNotes = this.updateNotes.bind(this);
+    this.componentCleanup = this.componentCleanup.bind(this);
+  }
+
+  componentDidMount(){
+    window.addEventListener('beforeunload', this.componentCleanup);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.notes) {
+      this.setState({ notes: nextProps.notes });
+    }
+  }
+
+  updateNotes(note) {
+    const { roomId, userName } = this.state;
+    bdk.getBotData(roomId)
+      .then((data) => {
+        const oldNotes =
+          data.body.filter((bd) => bd.name === 'notesBotNotes')[ZERO];
+        const newNotes = JSON.parse(oldNotes.value);
+        newNotes[userName] = note;
+        bdk.changeBotData(oldNotes.id, JSON.stringify(newNotes));
+      });
+  }
+
+  componentWillUnmount() {
+    this.componentCleanup();
+    // remove the event handler for normal unmounting
+    window.removeEventListener('beforeunload', this.componentCleanup);
+  }
+
+  componentCleanup() {
+    this.updateNotes(this.refs.notesBotDiv.innerHTML);
+  }
+
+  render() {
+    const message = this.state.notes;
+    const containerClass = 'slds-form slds-form_stacked' +
+      'slds-p-horizontal_medium slds-m-bottom_small';
+
+    const labelHeaderClass = 'slds-size_1-of-1 slds-text-align_center ' +
+      'slds-docked-composer__header';
+
+    const labelStyle = {
+      fontWeight: 700,
+      margin: 'auto'
+    };
+
+    const richTextNoteClass =
+      'slds-rich-text-area__content slds-text-color_weak slds-grow';
+
+    const richTextNoteStyle = {
+      backgroundColor: '#e7f9ff',
+      borderBottom: '1px solid #d8dde7',
+      borderLeft: '1px solid #d8dde7',
+      borderRight: '1px solid #d8dde7'
+    };
+
+    return (
+      <div className={containerClass}>
+        <div className={labelHeaderClass}>
+          <label
+            className="slds-form-element__label"
+            style={labelStyle}>
+            {this.state.userName}
+          </label>
+        </div>
+        <div
+          className="slds-rich-text-editor__textarea slds-grid"
+          style={{ height: '250px' }}
+        >
+          <div ref="notesBotDiv"
+            contentEditable
+            suppressContentEditableWarning
+            className={richTextNoteClass}
+            style={richTextNoteStyle}
+            dangerouslySetInnerHTML={{ __html: message }}
+            onBlur={() => this.updateNotes(this.refs.notesBotDiv.innerHTML)}>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
+
+App.propTypes={
+  roomId: PropTypes.number,
+  notes: PropTypes.string,
+  userName: PropTypes.string
+};
 
 module.exports=App;
