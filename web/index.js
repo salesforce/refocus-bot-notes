@@ -38,7 +38,7 @@ function handleData(data) {
 
 // The actions to take place before load.
 function init() {
-  bdk.getBotData(roomId)
+  bdk.getBotData(roomId, botName)
     .then((data) => {
       const _notes =
         data.body.filter((bd) => bd.name === 'notesBotNotes')[ZERO];

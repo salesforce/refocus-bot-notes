@@ -18,6 +18,7 @@ const React=require('react');
 const env = process.env.NODE_ENV || 'dev';
 const config = require('../../config.js')[env];
 const bdk = require('@salesforce/refocus-bdk')(config);
+const botName = require('../../package.json').name;
 const ZERO = 0;
 
 class App extends React.Component {
@@ -46,7 +47,7 @@ class App extends React.Component {
 
   updateNotes(note) {
     const { roomId, userName } = this.state;
-    bdk.getBotData(roomId)
+    bdk.getBotData(roomId, botName)
       .then((data) => {
         const oldNotes =
           data.body.filter((bd) => bd.name === 'notesBotNotes')[ZERO];
