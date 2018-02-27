@@ -69,38 +69,24 @@ class App extends React.Component {
   render() {
     const message = this.state.notes;
     const containerClass = 'slds-form slds-form_stacked' +
-      'slds-p-horizontal_medium slds-m-bottom_small';
+      'slds-p-horizontal_medium';
 
-    const labelHeaderClass = 'slds-size_1-of-1 slds-text-align_center ' +
-      'slds-docked-composer__header';
 
-    const labelStyle = {
-      fontWeight: 700,
-      margin: 'auto'
-    };
 
     const richTextNoteClass =
       'slds-rich-text-area__content slds-text-color_weak slds-grow';
 
     const richTextNoteStyle = {
-      backgroundColor: '#e7f9ff',
-      borderBottom: '1px solid #d8dde7',
-      borderLeft: '1px solid #d8dde7',
-      borderRight: '1px solid #d8dde7'
+      backgroundColor: '#b2ecff',
+      borderRadius: '0px',
+      marginTop: '-0.75rem'
     };
 
     return (
       <div className={containerClass}>
-        <div className={labelHeaderClass}>
-          <label
-            className="slds-form-element__label"
-            style={labelStyle}>
-            {this.state.userName}
-          </label>
-        </div>
         <div
           className="slds-rich-text-editor__textarea slds-grid"
-          style={{ height: '250px' }}
+          style={{ height: '200px' }}
         >
           <div ref="notesBotDiv"
             contentEditable
