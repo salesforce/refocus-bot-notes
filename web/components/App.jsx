@@ -18,13 +18,13 @@ const React=require('react');
 const env = process.env.NODE_ENV || 'dev';
 const config = require('../../config.js')[env];
 const bdk = require('@salesforce/refocus-bdk')(config);
+const serialize = require('serialize-javascript');
 const botName = require('../../package.json').name;
 const ZERO = 0;
 
 class App extends React.Component {
   constructor(props){
     super(props);
-
     this.state = {
       userName: props.userName,
       notes: props.notes,
@@ -53,7 +53,7 @@ class App extends React.Component {
           data.body.filter((bd) => bd.name === 'notesBotNotes')[ZERO];
         const newNotes = JSON.parse(oldNotes.value);
         newNotes[userName] = note;
-        bdk.changeBotData(oldNotes.id, JSON.stringify(newNotes));
+        bdk.changeBotData(oldNotes.id, serialize(newNotes));
       });
   }
 

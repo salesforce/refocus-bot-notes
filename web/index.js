@@ -16,15 +16,16 @@
 
 const React = require('react');
 const ReactDOM = require('react-dom');
+const serialize = require('serialize-javascript');
 const App = require('./components/App.jsx');
-const env = process.env.NODE_ENV || 'dev';
+const { env } = require('../config.js');
 const config = require('../config.js')[env];
 const bdk = require('@salesforce/refocus-bdk')(config);
 const botName = require('../package.json').name;
-let currentNotes = {};
 const userName = bdk.getUserName();
 const roomId = bdk.getRoomId();
 const ZERO = 0;
+let currentNotes = {};
 
 /**
  * When a refocus.bot.data is dispatch it is handled here.
@@ -47,13 +48,13 @@ function init() {
         currentNotes = JSON.parse(_notes.value);
         if (!currentNotes[userName]) {
           currentNotes[userName] = '';
-          bdk.changeBotData(_notes.id, JSON.stringify(currentNotes));
+          bdk.changeBotData(_notes.id, serialize(currentNotes));
         }
       } else {
         currentNotes = _notes ? JSON.parse(_notes.value) : {};
         currentNotes[userName] = '';
         bdk.createBotData(roomId, botName, 'notesBotNotes',
-          JSON.stringify(currentNotes));
+          serialize(currentNotes));
       }
 
       renderUI(currentNotes[userName]);
