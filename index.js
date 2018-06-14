@@ -12,10 +12,10 @@
  * This code handles will install / update the bot in refocus
  */
 
-const env = process.env.NODE_ENV || 'dev';
+const env = require('./config.js').env;
 const config = require('./config.js')[env];
-const bdk = require('@salesforce/refocus-bdk')(config);
 const packageJSON = require('./package.json');
+const bdk = require('@salesforce/refocus-bdk')(config);
 
 // Installs / Updates the Bot
 bdk.installOrUpdateBot(packageJSON);
