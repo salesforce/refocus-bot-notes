@@ -15,7 +15,7 @@
 
 import PropTypes from 'prop-types';
 const React=require('react');
-const env = process.env.NODE_ENV || 'dev';
+const { env } = require('../../config.js');
 const config = require('../../config.js')[env];
 const bdk = require('@salesforce/refocus-bdk')(config);
 const serialize = require('serialize-javascript');
