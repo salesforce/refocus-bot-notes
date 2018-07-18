@@ -34,3 +34,4 @@ If you have any ideas on how this project could be improved, please feel free. T
 Follows [semantic versioning](https://docs.npmjs.com/getting-started/semantic-versioning#semver-for-publishers)
 * 1.0.0 Basic timeline functionality works.
 * 1.0.1 Uses new bdk 1.5.10
+* 1.0.2 Has a display name
